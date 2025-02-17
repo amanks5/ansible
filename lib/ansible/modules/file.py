@@ -325,14 +325,11 @@ def recursive_set_attributes(b_path, follow, file_args, mtime, atime):
 
     try:
         
-        module.warn("WARN: recursive_set_attributes function was called!")
-
 
         for b_root, b_dirs, b_files in os.walk(b_path):
             for b_fsobj in b_dirs + b_files:
                 b_fsname = os.path.join(b_root, b_fsobj)
 
-                module.warn("WARN: Inside the loop, processing: " + b_fsname)
                 if not os.path.exists(b_fsname):
                     module.debug(f"Skipping vanished file: {b_fsname}")
                     continue
