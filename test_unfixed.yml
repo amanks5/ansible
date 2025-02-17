@@ -1,0 +1,19 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Find all files in /tmp/mytestdir
+      ansible.builtin.find:
+        paths: /tmp/mytestdir
+        recurse: yes
+        file_type: file
+      register: found_files
+
+    - name: Apply permissions to each file (UNFIXED)
+      ansible.builtin.file:
+        path: "{{ item.path }}"
+        owner: aman
+        group: staff
+        state: file
+      loop: "{{ found_files.files }}"
+
+

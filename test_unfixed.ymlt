@@ -1,0 +1,13 @@
+- hosts: localhost
+  gather_facts: no
+  become: yes          # <--- Add this
+  become_method: sudo  # (optional, typically the default)
+  tasks:
+    - name: Recursively set permissions on /tmp/mytestdir (UNFIXED)
+      ansible.builtin.file:
+        path: /tmp/mytestdir
+        owner: root
+        group: root
+        recurse: yes
+        state: directory
+
