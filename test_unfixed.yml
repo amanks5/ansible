@@ -16,4 +16,3 @@
         state: file
       loop: "{{ found_files.files }}"
 
-

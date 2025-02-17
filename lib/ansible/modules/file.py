@@ -324,14 +324,26 @@ def recursive_set_attributes(b_path, follow, file_args, mtime, atime):
     changed = False
 
     try:
+        
+        module.warn("WARN: recursive_set_attributes function was called!")
+
+
         for b_root, b_dirs, b_files in os.walk(b_path):
             for b_fsobj in b_dirs + b_files:
                 b_fsname = os.path.join(b_root, b_fsobj)
+
+                module.warn("WARN: Inside the loop, processing: " + b_fsname)
+                if not os.path.exists(b_fsname):
+                    module.debug(f"Skipping vanished file: {b_fsname}")
+                    continue
+
+
                 if not os.path.islink(b_fsname):
                     tmp_file_args = file_args.copy()
                     tmp_file_args['path'] = to_native(b_fsname, errors='surrogate_or_strict')
                     changed |= module.set_fs_attributes_if_different(tmp_file_args, changed, expand=False)
                     changed |= update_timestamp_for_file(tmp_file_args['path'], mtime, atime)
+
 
                 else:
                     # Change perms on the link
